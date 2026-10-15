@@ -234,6 +234,22 @@ function Setup_RR_Panel()
 	RR_RollCheckBox_HideInCombat:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
 	RR_RollCheckBox_HideInCombat:SetScript("OnLeave", function() GameTooltip:Hide()	end)
 
+-- [ ] Tooltip at cursor
+ 	RR_RollCheckBox_TooltipAtCursor = CreateFrame("CheckButton", "RR_RollCheckBox_TooltipAtCursor", RaidRoll_Panel.panel, "UICheckButtonTemplate")
+	RR_RollCheckBox_TooltipAtCursor:SetWidth(20)
+	RR_RollCheckBox_TooltipAtCursor:SetHeight(20)
+	RR_RollCheckBox_TooltipAtCursor:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft",  240, -160)
+	_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetText("|cFFFFFFFF" .. RAIDROLL_LOCALE["Tooltip_At_Cursor"])
+	if (GetLocale() ~= "zhTW") then
+		_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetFont("Fonts\\FRIZQT__.TTF", 12)
+	end
+	if (GetLocale() == "zhCN") then
+		_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetFont("Fonts\\ZYKai_T.TTF", 15)
+	end
+	RR_RollCheckBox_TooltipAtCursor:SetScript("OnClick",RaidRoll_CheckButton_Update_Panel)
+	RR_RollCheckBox_TooltipAtCursor:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
+	RR_RollCheckBox_TooltipAtCursor:SetScript("OnLeave", function() GameTooltip:Hide()	end)
+
 -- Display Settings
 	Raid_Roll_Display_Settings =  RaidRoll_Panel.panel:CreateFontString("Raid_Roll_Display_Settings" ,"ARTWORK","GameFontNormal");
 	Raid_Roll_Display_Settings:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft", 20, -160)
@@ -793,6 +809,12 @@ function RaidRoll_CheckButton_Update_Panel()
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] =  false
 	end
 	if RR_HideInCombat_Update then RR_HideInCombat_Update() end
+
+	if  RR_RollCheckBox_TooltipAtCursor:GetChecked() then
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] =  true
+	else
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] =  false
+	end
 
 	if  RR_RollCheckBox_Auto_Close:GetChecked() then
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] =  true
