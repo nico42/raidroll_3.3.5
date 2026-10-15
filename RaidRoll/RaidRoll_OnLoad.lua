@@ -2761,20 +2761,25 @@ function RR_SetupVariables()
 	end
 	
 	
+-- RR_RollCheckBox_HideBossOnly
+	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideBossOnly"] == true then
+		RR_RollCheckBox_HideBossOnly:SetChecked(true)
+	else
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideBossOnly"] = false
+		RR_RollCheckBox_HideBossOnly:SetChecked(false)
+	end
+	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] == true then
+		RR_RollCheckBox_HideBossOnly:Enable()
+	else
+		RR_RollCheckBox_HideBossOnly:Disable()
+	end
+
 -- RR_RollCheckBox_HideInCombat
 	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] == true then
 		RR_RollCheckBox_HideInCombat:SetChecked(true)
 	else
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] = false
 		RR_RollCheckBox_HideInCombat:SetChecked(false)
-	end
-
--- RR_RollCheckBox_TooltipAtCursor
-	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] == true then
-		RR_RollCheckBox_TooltipAtCursor:SetChecked(true)
-	else
-		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] = false
-		RR_RollCheckBox_TooltipAtCursor:SetChecked(false)
 	end
 
 -- RR_RollCheckBox_Auto_Close
