@@ -15,6 +15,7 @@
   <Script file="RaidRoll_ExtraRollFrames.lua" />
   <Script file="RaidRoll_EPGP.lua" />
   <Script file="RaidRoll_HideInCombat.lua" />
+  <Script file="RaidRoll_Style.lua" />
   
   
 	<GameTooltip name="RR_Compare_Tooltip1" 
