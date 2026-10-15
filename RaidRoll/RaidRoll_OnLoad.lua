@@ -383,6 +383,22 @@ end
 --		PASSED AS "ID" AND THE TOOLTIPS ARE		--
 --		STORED IN THE "RR_Tooltips" ARRAY.			--
 --	--	--	--	--	--	--	--	--	--	--	--
+-- Anchors GameTooltip to the mouse cursor (option "Tooltip at cursor") or,
+-- when the option is off, to the given point of the frame like before.
+function RR_AnchorTooltip(frame, point, relPoint, ldb)
+	local db = RaidRoll_DBPC and RaidRoll_DBPC[UnitName("player")]
+	if db and db["RR_RollCheckBox_TooltipAtCursor"] == true then
+		GameTooltip:SetOwner(frame, "ANCHOR_CURSOR")
+	elseif ldb then
+		GameTooltip:SetOwner(frame, "ANCHOR_NONE")
+		GameTooltip:SetPoint(point, frame, relPoint)
+	else
+		GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
+		GameTooltip:ClearAllPoints()
+		GameTooltip:SetPoint(point, frame, relPoint, 0, 0)
+	end
+end
+
 function RR_MouseOverTooltip(ID)
 	if RR_Tooltips == nil then 
 		RR_Tooltips = {}
@@ -421,7 +437,7 @@ function RR_MouseOverTooltip(ID)
 		end
 	end
 	
-	GameTooltip:SetOwner(_G[ID], "ANCHOR_CURSOR")
+	RR_AnchorTooltip(_G[ID], "bottomleft", "top")
 	GameTooltip:ClearLines()
 	GameTooltip:SetText(RR_Tooltips[ID])
 end
@@ -2751,6 +2767,14 @@ function RR_SetupVariables()
 	else
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] = false
 		RR_RollCheckBox_HideInCombat:SetChecked(false)
+	end
+
+-- RR_RollCheckBox_TooltipAtCursor
+	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] == true then
+		RR_RollCheckBox_TooltipAtCursor:SetChecked(true)
+	else
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] = false
+		RR_RollCheckBox_TooltipAtCursor:SetChecked(false)
 	end
 
 -- RR_RollCheckBox_Auto_Close
