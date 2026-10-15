@@ -298,11 +298,31 @@ note:SetJustifyH("LEFT")
 note:SetText(T("Colour and thickness only take effect when a non-default texture or thickness is chosen.",
                "Farbe und Dicke wirken erst, wenn eine eigene Textur bzw. Dicke gewählt ist."))
 
+-- Tooltip at cursor (Raid Roll / Loot Tracker tooltips only)
+local ttCheck = CreateFrame("CheckButton", "RR_RollCheckBox_TooltipAtCursor", panel, "UICheckButtonTemplate")
+ttCheck:SetWidth(22)
+ttCheck:SetHeight(22)
+ttCheck:SetPoint("TOPLEFT", 16, -345)
+_G["RR_RollCheckBox_TooltipAtCursorText"]:SetText(T("Tooltips at the mouse cursor", "Tooltips an der Maus"))
+ttCheck:SetScript("OnClick", function(self)
+	local name = UnitName("player")
+	if RaidRoll_DBPC then
+		RaidRoll_DBPC[name] = RaidRoll_DBPC[name] or {}
+		RaidRoll_DBPC[name]["RR_RollCheckBox_TooltipAtCursor"] = self:GetChecked() and true or false
+	end
+end)
+ttCheck:SetScript("OnEnter", function(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	GameTooltip:SetText(T("Shows the tooltips of Raid Roll and Loot Tracker at the mouse cursor. Other addons are not affected.",
+	                      "Zeigt die Tooltips von Raid Roll und Loot Tracker am Mauszeiger. Andere Addons sind nicht betroffen."), 1, 1, 1, 1, true)
+end)
+ttCheck:SetScript("OnLeave", function() GameTooltip:Hide() end)
+
 -- Reset
 local reset = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
 reset:SetWidth(160)
 reset:SetHeight(22)
-reset:SetPoint("TOPLEFT", 20, -365)
+reset:SetPoint("TOPLEFT", 20, -385)
 reset:SetText(T("Reset to default", "Auf Standard zurücksetzen"))
 reset:SetScript("OnClick", function()
 	local s = GetStyle()
@@ -324,6 +344,8 @@ function panel.Refresh()
 	_G["RR_Style_EdgeSizeText"]:SetText(T("Border thickness: ", "Rahmendicke: ") .. (s.edgeSize or ORIG.RR_RollFrame.edgeSize))
 	btnBG.Refresh()
 	btnEdge.Refresh()
+	local db = RaidRoll_DBPC and RaidRoll_DBPC[UnitName("player")]
+	ttCheck:SetChecked(db and db["RR_RollCheckBox_TooltipAtCursor"] == true)
 end
 panel.refresh = panel.Refresh
 panel:SetScript("OnShow", panel.Refresh)

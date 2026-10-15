@@ -234,21 +234,21 @@ function Setup_RR_Panel()
 	RR_RollCheckBox_HideInCombat:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
 	RR_RollCheckBox_HideInCombat:SetScript("OnLeave", function() GameTooltip:Hide()	end)
 
--- [ ] Tooltip at cursor
- 	RR_RollCheckBox_TooltipAtCursor = CreateFrame("CheckButton", "RR_RollCheckBox_TooltipAtCursor", RaidRoll_Panel.panel, "UICheckButtonTemplate")
-	RR_RollCheckBox_TooltipAtCursor:SetWidth(20)
-	RR_RollCheckBox_TooltipAtCursor:SetHeight(20)
-	RR_RollCheckBox_TooltipAtCursor:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft",  240, -160)
-	_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetText("|cFFFFFFFF" .. RAIDROLL_LOCALE["Tooltip_At_Cursor"])
+-- [ ] Only boss fights
+ 	RR_RollCheckBox_HideBossOnly = CreateFrame("CheckButton", "RR_RollCheckBox_HideBossOnly", RaidRoll_Panel.panel, "UICheckButtonTemplate")
+	RR_RollCheckBox_HideBossOnly:SetWidth(18)
+	RR_RollCheckBox_HideBossOnly:SetHeight(18)
+	RR_RollCheckBox_HideBossOnly:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft",  255, -158)
+	_G["RR_RollCheckBox_HideBossOnly".."Text"]:SetText("|cFFFFFFFF" .. RAIDROLL_LOCALE["Hide_Boss_Only"])
 	if (GetLocale() ~= "zhTW") then
-		_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetFont("Fonts\\FRIZQT__.TTF", 12)
+		_G["RR_RollCheckBox_HideBossOnly".."Text"]:SetFont("Fonts\\FRIZQT__.TTF", 11)
 	end
 	if (GetLocale() == "zhCN") then
-		_G["RR_RollCheckBox_TooltipAtCursor".."Text"]:SetFont("Fonts\\ZYKai_T.TTF", 15)
+		_G["RR_RollCheckBox_HideBossOnly".."Text"]:SetFont("Fonts\\ZYKai_T.TTF", 14)
 	end
-	RR_RollCheckBox_TooltipAtCursor:SetScript("OnClick",RaidRoll_CheckButton_Update_Panel)
-	RR_RollCheckBox_TooltipAtCursor:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
-	RR_RollCheckBox_TooltipAtCursor:SetScript("OnLeave", function() GameTooltip:Hide()	end)
+	RR_RollCheckBox_HideBossOnly:SetScript("OnClick",RaidRoll_CheckButton_Update_Panel)
+	RR_RollCheckBox_HideBossOnly:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
+	RR_RollCheckBox_HideBossOnly:SetScript("OnLeave", function() GameTooltip:Hide()	end)
 
 -- Display Settings
 	Raid_Roll_Display_Settings =  RaidRoll_Panel.panel:CreateFontString("Raid_Roll_Display_Settings" ,"ARTWORK","GameFontNormal");
@@ -808,13 +808,17 @@ function RaidRoll_CheckButton_Update_Panel()
 	else
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] =  false
 	end
-	if RR_HideInCombat_Update then RR_HideInCombat_Update() end
-
-	if  RR_RollCheckBox_TooltipAtCursor:GetChecked() then
-		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] =  true
+	if  RR_RollCheckBox_HideBossOnly:GetChecked() then
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideBossOnly"] =  true
 	else
-		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_TooltipAtCursor"] =  false
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideBossOnly"] =  false
 	end
+	if RR_RollCheckBox_HideInCombat:GetChecked() then
+		RR_RollCheckBox_HideBossOnly:Enable()
+	else
+		RR_RollCheckBox_HideBossOnly:Disable()
+	end
+	if RR_HideInCombat_Update then RR_HideInCombat_Update() end
 
 	if  RR_RollCheckBox_Auto_Close:GetChecked() then
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] =  true
