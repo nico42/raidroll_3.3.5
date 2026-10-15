@@ -635,7 +635,7 @@ function RR_MouseOver_NameFrame()
 
 	if RaidRoll_DB["debug"] == true then RR_Test("Moused over " .. rr_Item[rr_CurrentRollID]) end
 
-	GameTooltip:SetOwner(RR_NAME_FRAME, "ANCHOR_CURSOR")
+	RR_AnchorTooltip(RR_NAME_FRAME, "bottom", "top")
 	GameTooltip:ClearLines()
 	
 	if string.find(rr_Item[rr_CurrentRollID], "ID ") == nil then

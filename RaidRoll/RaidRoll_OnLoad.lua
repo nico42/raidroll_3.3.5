@@ -437,7 +437,7 @@ function RR_MouseOverTooltip(ID)
 		end
 	end
 	
-	GameTooltip:SetOwner(_G[ID], "ANCHOR_CURSOR")
+	RR_AnchorTooltip(_G[ID], "bottomleft", "top")
 	GameTooltip:ClearLines()
 	GameTooltip:SetText(RR_Tooltips[ID])
 end
