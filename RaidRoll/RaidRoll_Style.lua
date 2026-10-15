@@ -95,7 +95,9 @@ local styleApplied = false
 function RR_ApplyStyle()
 	local s = GetStyle()
 	if not s then return end
-	local isDefault = (s.bg == "default" and s.edge == "default" and s.edgeSize == nil)
+	local function IsWhite(c) return c[1] == 1 and c[2] == 1 and c[3] == 1 and c[4] == 1 end
+	local isDefault = (s.bg == "default" and s.edge == "default" and s.edgeSize == nil
+		and IsWhite(s.bgColor) and IsWhite(s.edgeColor))
 	-- nothing to do while the original look is still untouched
 	if isDefault and not styleApplied then return end
 	styleApplied = not isDefault
@@ -107,19 +109,18 @@ function RR_ApplyStyle()
 				tile = o.tile, tileSize = o.tileSize, edgeSize = o.edgeSize,
 				insets = { left = o.inset, right = o.inset, top = o.inset, bottom = o.inset },
 			}
-			local bgColor, edgeColor = {1, 1, 1, 1}, {1, 1, 1, 1}
+			-- colours always apply (white = original look)
+			local bgColor, edgeColor = s.bgColor, s.edgeColor
 
 			if s.bg ~= "default" then
 				local path = Resolve(BG_PRESETS, s.bg, "background")
 				if path then bd.bgFile = path end
-				bgColor = s.bgColor
 			end
 
-			local customEdge = (s.edge ~= "default") or (s.edgeSize ~= nil)
 			if s.edge == "none" then
 				bd.edgeFile = nil
 				bd.insets = { left = 0, right = 0, top = 0, bottom = 0 }
-			elseif customEdge then
+			else
 				if s.edge ~= "default" then
 					local path = Resolve(EDGE_PRESETS, s.edge, "border")
 					if path then bd.edgeFile = path end
@@ -129,12 +130,6 @@ function RR_ApplyStyle()
 					local inset = math.max(1, math.floor(s.edgeSize / 5))
 					bd.insets = { left = inset, right = inset, top = inset, bottom = inset }
 				end
-				edgeColor = s.edgeColor
-			end
-			if s.edge == "default" and s.edgeSize == nil then
-				edgeColor = {1, 1, 1, 1}
-			elseif s.edge ~= "none" then
-				edgeColor = s.edgeColor
 			end
 
 			frame:SetBackdrop(bd)
@@ -290,13 +285,6 @@ end
 
 local btnBG   = MakeColorButton(T("Background colour…", "Hintergrundfarbe…"), 20, -265, "bgColor")
 local btnEdge = MakeColorButton(T("Border colour…", "Rahmenfarbe…"),           20, -295, "edgeColor")
-
-local note = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-note:SetPoint("TOPLEFT", 20, -325)
-note:SetWidth(380)
-note:SetJustifyH("LEFT")
-note:SetText(T("Colour and thickness only take effect when a non-default texture or thickness is chosen.",
-               "Farbe und Dicke wirken erst, wenn eine eigene Textur bzw. Dicke gewählt ist."))
 
 -- Tooltip at cursor (Raid Roll / Loot Tracker tooltips only)
 local ttCheck = CreateFrame("CheckButton", "RR_RollCheckBox_TooltipAtCursor", panel, "UICheckButtonTemplate")
