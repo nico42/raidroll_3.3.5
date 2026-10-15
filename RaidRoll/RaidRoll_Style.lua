@@ -147,7 +147,24 @@ end
 local panel = CreateFrame("Frame", "RaidRoll_StylePanel", UIParent)
 panel.name = T("Appearance", "Aussehen")
 panel.parent = "Raid Roll"
-InterfaceOptions_AddCategory(panel)
+
+-- The parent category "Raid Roll" is only registered later, inside Setup_RR_Panel()
+-- (called on load of the saved variables). A child category added before its parent
+-- exists is dropped from the list, so register ours right after the parent.
+local registered = false
+local function Register()
+	if not registered then
+		registered = true
+		InterfaceOptions_AddCategory(panel)
+	end
+end
+if RaidRoll_Panel and RaidRoll_Panel.panel then
+	Register()
+elseif Setup_RR_Panel then
+	hooksecurefunc("Setup_RR_Panel", Register)
+else
+	Register()
+end
 
 local title = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 title:SetPoint("TOPLEFT", 16, -16)
