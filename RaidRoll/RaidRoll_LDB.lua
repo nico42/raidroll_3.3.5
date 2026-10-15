@@ -65,7 +65,7 @@ if dataobj ~= nil then
 	end
 
 	function dataobj:OnEnter()
-		RR_AnchorTooltip(self, "TOPLEFT", "BOTTOMLEFT", true)
+		GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
 		GameTooltip:ClearLines()
 		dataobj.OnTooltipShow(GameTooltip)
 		GameTooltip:Show()
