@@ -421,9 +421,7 @@ function RR_MouseOverTooltip(ID)
 		end
 	end
 	
-	GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
-	GameTooltip:ClearAllPoints(); 
-	GameTooltip:SetPoint("bottomleft", _G[ID], "top", 0, 0)
+	GameTooltip:SetOwner(_G[ID], "ANCHOR_CURSOR")
 	GameTooltip:ClearLines()
 	GameTooltip:SetText(RR_Tooltips[ID])
 end
