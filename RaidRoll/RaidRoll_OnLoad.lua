@@ -2745,6 +2745,14 @@ function RR_SetupVariables()
 	end
 	
 	
+-- RR_RollCheckBox_HideInCombat
+	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] == true then
+		RR_RollCheckBox_HideInCombat:SetChecked(true)
+	else
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] = false
+		RR_RollCheckBox_HideInCombat:SetChecked(false)
+	end
+
 -- RR_RollCheckBox_Auto_Close
 	if RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] == nil or RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] == false then
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] =  false
