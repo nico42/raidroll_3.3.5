@@ -218,6 +218,22 @@ function Setup_RR_Panel()
 	RR_RollCheckBox_Multi_Rollers:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
 	RR_RollCheckBox_Multi_Rollers:SetScript("OnLeave", function() GameTooltip:Hide()	end)
 
+-- [ ] Hide in combat
+ 	RR_RollCheckBox_HideInCombat = CreateFrame("CheckButton", "RR_RollCheckBox_HideInCombat", RaidRoll_Panel.panel, "UICheckButtonTemplate")
+	RR_RollCheckBox_HideInCombat:SetWidth(20)
+	RR_RollCheckBox_HideInCombat:SetHeight(20)
+	RR_RollCheckBox_HideInCombat:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft",  240, -140)
+	_G["RR_RollCheckBox_HideInCombat".."Text"]:SetText("|cFFFFFFFF" .. RAIDROLL_LOCALE["Hide_In_Combat"])
+	if (GetLocale() ~= "zhTW") then
+		_G["RR_RollCheckBox_HideInCombat".."Text"]:SetFont("Fonts\\FRIZQT__.TTF", 12)
+	end
+	if (GetLocale() == "zhCN") then
+		_G["RR_RollCheckBox_HideInCombat".."Text"]:SetFont("Fonts\\ZYKai_T.TTF", 15)
+	end
+	RR_RollCheckBox_HideInCombat:SetScript("OnClick",RaidRoll_CheckButton_Update_Panel)
+	RR_RollCheckBox_HideInCombat:SetScript("OnEnter",function(self) RR_MouseOverTooltip(self:GetName())	end)
+	RR_RollCheckBox_HideInCombat:SetScript("OnLeave", function() GameTooltip:Hide()	end)
+
 -- Display Settings
 	Raid_Roll_Display_Settings =  RaidRoll_Panel.panel:CreateFontString("Raid_Roll_Display_Settings" ,"ARTWORK","GameFontNormal");
 	Raid_Roll_Display_Settings:SetPoint("TopLeft", RaidRoll_Panel.panel, "TopLeft", 20, -160)
@@ -770,6 +786,13 @@ function RaidRoll_CheckButton_Update_Panel()
 		RR_RollCheckBox_No_countdown:SetChecked(false)
 	end
 
+
+	if  RR_RollCheckBox_HideInCombat:GetChecked() then
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] =  true
+	else
+		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_HideInCombat"] =  false
+	end
+	if RR_HideInCombat_Update then RR_HideInCombat_Update() end
 
 	if  RR_RollCheckBox_Auto_Close:GetChecked() then
 		RaidRoll_DBPC[UnitName("player")]["RR_RollCheckBox_Auto_Close"] =  true
