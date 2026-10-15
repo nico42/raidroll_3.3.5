@@ -1361,9 +1361,7 @@ function RR_MouseOver(ID,TryOnItem,InsertItem)
 	local Current_Window = RaidRoll_DB["Loot"]["CURRENT WINDOW"]
 	--MOB_ID = RaidRoll_DB["Loot"][Current_Window]
 
-	GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
-	GameTooltip:ClearAllPoints(); 
-	GameTooltip:SetPoint("bottomleft", _G[ID], "topright", 0, 0)
+	GameTooltip:SetOwner(_G[ID], "ANCHOR_CURSOR")
 	GameTooltip:ClearLines()
 	
 	if RaidRoll_DB["Loot"][Current_Window] ~= nil then
@@ -1547,9 +1545,7 @@ Current_Window = RaidRoll_DB["Loot"]["CURRENT WINDOW"]
 		
 		AnnounceMessage = RR_AnnounceMsg(ID, ItemLink)
 		
-		GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
-		GameTooltip:ClearAllPoints(); 
-		GameTooltip:SetPoint("bottomLEFT", _G["RR_Loot_Announce_".. ID .."_Button_"..ItemID], "top", 0, 0)
+		GameTooltip:SetOwner(_G["RR_Loot_Announce_".. ID .."_Button_"..ItemID], "ANCHOR_CURSOR")
 		GameTooltip:ClearLines()
 		
 		GameTooltip:AddLine(AnnounceMessage,1,1,1)
@@ -1561,9 +1557,7 @@ Current_Window = RaidRoll_DB["Loot"]["CURRENT WINDOW"]
 		
 		AnnounceMessage = "<<Raid Rolling for: ".. ItemLink .." >> (ID - Name)"
 		
-		GameTooltip_SetDefaultAnchor( GameTooltip, UIParent )
-		GameTooltip:ClearAllPoints(); 
-		GameTooltip:SetPoint("bottomLEFT", _G["RR_Loot_RaidRollButton_".. ID], "top", 0, 0)
+		GameTooltip:SetOwner(_G["RR_Loot_RaidRollButton_".. ID], "ANCHOR_CURSOR")
 		GameTooltip:ClearLines()
 		
 		GameTooltip:AddLine(AnnounceMessage,1,1,1)
