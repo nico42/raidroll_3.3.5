@@ -2681,6 +2681,8 @@ function RR_SetupVariables()
 	if RaidRoll_DB == nil then RaidRoll_DB = {} end
 	if RaidRoll_DBPC == nil then RaidRoll_DBPC = {} end
 	if RaidRoll_DBPC[UnitName("player")] == nil then RaidRoll_DBPC[UnitName("player")] = {} end
+	-- profiles: make RaidRoll_DBPC[player] point to the active profile
+	if RR_Profiles_Init then RR_Profiles_Init() end
 	
 	--[[
 	if RaidRoll_DBPC[UnitName("player")]["RR_Accept_All_Rolls"] == nil then RaidRoll_DBPC[UnitName("player")][""] = RR_Accept_All_Rolls end
